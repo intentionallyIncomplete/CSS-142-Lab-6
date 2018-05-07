@@ -2,6 +2,7 @@
 import java.io.FileInputStream; //"turns" the file into a read stream
 import java.util.Scanner; //reads from stream
 import java.io.IOException;
+import java.awt.SystemTray;
 import java.io.File;
 import java.io.FileOutputStream; //"turns" the file into a write stream
 import java.io.PrintWriter; //writes to the stream
@@ -37,15 +38,27 @@ public class Stats {
 		double min = 0.0;
 		double max = 0.0;
 		double average = 0.0;
-		
-		try {    
+
+		try {
 			input = new Scanner(new File("fileIn.txt"));
+
+			//if hasNext returns true, do the operation
+			//of totaling the current double with the next
+			//increase the line count by 1 after each operation
 			while(input.hasNext()) {
+				grandTotal += input.nextDouble();
+				inputNumber = input.nextDouble();
+				if(inputNumber > max){
+					max = inputNumber;
+				}else if(inputNumber < min){
+					min = inputNumber;
+				}
 				lineCounter++;
 			}
-			double[] numList = new double[lineCounter];
-			
-			numList[lineCounter++] = input.nextDouble();
+
+			//basic average formula
+			average = grandTotal / lineCounter;
+
 		}
 		catch (FileNotFoundException e) {
 			System.out.println("File not found.");
@@ -60,16 +73,23 @@ public class Stats {
 
 	/****************************************/
 	/*				DISPLAY					*/
-	/* this method takes in the parameters	*/
-	/* that will be used to count and parse	*/
-	/* the numbers that are in the stream	*/
+	/* this method takes in the values		*/
+	/* assigned to the variables in the main*/
+	/* method and adds them to a file called*/
+	/* fileOut.txt							*/
 	/****************************************/
 	public static void display (double average, double max, double min, double lineCounter, int negNum, int btw0and100, int geq100){
-		double tempTotal = 0.0;
 		PrintWriter output = null;
 
 		try{
 			output = new PrintWriter(new FileOutputStream("fileOut.txt"));
+			output.println("average: " + average);
+			output.println("max: " + max);
+			output.println("min: " + min);
+			output.println("line count: " + lineCounter);
+			output.println(negNum);
+			output.println(btw0and100);
+			output.println(geq100);
 		}catch (FileNotFoundException e) {
 			System.out.println(" Sorry, we cannot locate the file!");
 			System.exit(0);
