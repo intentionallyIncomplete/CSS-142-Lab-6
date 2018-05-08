@@ -20,29 +20,44 @@ import java.util.Scanner;
 public class Advice {
 
 	public static void main(String[] args) {
-		//declare file objects
+
 		PrintWriter output = null;
-		FileOutputStream fos = null;
-		
-		Scanner keyboard = new Scanner(System.in);
-		
+		PrintWriter output1 = null;
+		FileInputStream fos = null;
+		FileOutputStream fos1 = null;
 		String userAdvice = "";
 
-		System.out.println("Enter advice you would give to another programmer");
-		System.out.println("Press 'Enter' (Return) twice to exit");
-		
+		Scanner keyboard = new Scanner(System.in);
+
 		try {
-			fos = new FileOutputStream(new File("adviceLog.txt"),true);
-			output = new PrintWriter(fos);
+			fos = new FileInputStream("adviceLog.txt");
+			Scanner scanner = new Scanner(fos);
 			
+			System.out.println(scanner.nextLine());
+			System.out.println("Enter advice you would give to another programmer");
+			System.out.println("Press 'Enter' (Return) twice to exit");
+
 			while(keyboard.hasNextLine()) {
 				userAdvice = keyboard.nextLine();
 				if(userAdvice.equals("")) {
 					break;
 				}else {
 					output.println(userAdvice);
-				}	
+				}
 			}
+
+			try {
+				fos1 = new FileOutputStream(new File("advice.txt"), false);
+				output1 = new PrintWriter(fos1);
+
+
+			}catch(FileNotFoundException fnf) {
+				System.out.println("file not in directory or not spelled correct");
+				System.exit(0);
+			}finally {
+				output1.close();
+			}
+			//end nested try-catch-finally
 		}catch (FileNotFoundException e) {
 			System.out.println("File not found.");
 			System.exit(0);
