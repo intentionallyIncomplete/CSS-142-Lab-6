@@ -39,24 +39,31 @@ public class Stats {
 		double max = 0.0;
 		double average = 0.0;
 
-		try {
+		try{
+			/****************************************/
+			/*			Getting the Data			*/
+			/* if hasNext returns true, do the		*/
+			/* operation.of totaling the current	*/
+			/* double with the next increase the	*/
+			/* line count by 1 after each operation	*/
+			/****************************************/
 			input = new Scanner(new File("fileIn.txt"));
-
-			//if hasNext returns true, do the operation
-			//of totaling the current double with the next
-			//increase the line count by 1 after each operation
 			while(input.hasNext()) {
 				grandTotal += input.nextDouble();
 				inputNumber = input.nextDouble();
+				
 				if(inputNumber > max){
 					max = inputNumber;
-				}else if(inputNumber < min){
+				}
+				else if(inputNumber < min){
 					min = inputNumber;
 				}
+				if(inputNumber < 0) {negNum++;}
+				else if(inputNumber >= 0 && inputNumber < 100) {btw0and100++;}
+				else if(inputNumber >= 100) {geq100++;}
 				lineCounter++;
 			}
-
-			//basic average formula
+			//get average
 			average = grandTotal / lineCounter;
 
 		}
@@ -87,9 +94,9 @@ public class Stats {
 			output.println("max: " + max);
 			output.println("min: " + min);
 			output.println("line count: " + lineCounter);
-			output.println(negNum);
-			output.println(btw0and100);
-			output.println(geq100);
+			output.println("## of neg nums: " + negNum);
+			output.println("## of nums b/ween 0-100: " + btw0and100);
+			output.println("## of nums >= 100: " + geq100);
 		}catch (FileNotFoundException e) {
 			System.out.println(" Sorry, we cannot locate the file!");
 			System.exit(0);
