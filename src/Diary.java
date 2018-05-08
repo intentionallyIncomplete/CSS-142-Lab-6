@@ -34,17 +34,18 @@ public class Diary {
 		yyyy = keyboard.nextInt();
 
 		System.out.println("Enter as many lines of prose you wish (for your to-do's list or diary entry)");
-		System.out.println("Enter 'stop' to stop the program or CTRL + Z");
+		System.out.println("Enter CTRL + Z to end the program");
 
 		try {
 			fos = new FileOutputStream(new File("diaryLog.txt"),true);
 			output = new PrintWriter(fos);
 
-			output.print("||||||" + mm + "/" + dd + "/" + yyyy + "||||||");
+			output.print("Date: " + mm + "/" + dd + "/" + yyyy);
 
 			while(keyboard.hasNext()) {
 				output.println(keyboard.nextLine());
 			}
+			
 		}catch (FileNotFoundException e) {
 			System.out.println("File not found.");
 			System.exit(0);
